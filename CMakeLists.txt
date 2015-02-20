@@ -11,8 +11,10 @@ project ( external_log4cplus CXX )
 include ( ${CMAKE_CURRENT_LIST_DIR}/cmake/CMakeLists_common.cmake )
 
 # build steps
-add_subdirectory ( log4cplus )
-set ( ${PROJECT_NAME}_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/log4cplus/include )
+add_subdirectory ( ${CMAKE_CURRENT_LIST_DIR}/log4cplus_local ${CMAKE_CURRENT_BINARY_DIR}/log4cplus )
+set ( ${PROJECT_NAME}_INCLUDES 
+        ${CMAKE_CURRENT_BINARY_DIR}/log4cplus/include
+        ${CMAKE_CURRENT_LIST_DIR}/log4cplus/include )
 
 #get_property ( ${log4cplus}_COMPILE_FLAGS TARGET ${log4cplus} PROPERTY COMPILE_FLAGS)
 #set_target_properties( ${log4cplus} PROPERTIES COMPILE_FLAGS "${${log4cplus}_COMPILE_FLAGS} -Wno-deprecated-declarations" )
@@ -20,8 +22,12 @@ set ( ${PROJECT_NAME}_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/log4cplus/include )
 
 # test
 set ( ${PROJECT_NAME}_TEST_INCLUDES ${${PROJECT_NAME}_INCLUDES} )
-set ( ${PROJECT_NAME}_TEST_LIBS ${log4cplus} )
+set ( ${PROJECT_NAME}_TEST_LIBS log4cplus )
 staticlib_enable_testing ( ${PROJECT_NAME}_TEST_INCLUDES ${PROJECT_NAME}_TEST_LIBS )
+if ( STATICLIB_TOOLCHAIN MATCHES "[^_]+_[^_]+_clang" OR STATICLIB_TOOLCHAIN MATCHES "[^_]+_[^_]+_gcc" )
+    get_property ( log4cplus_test_COMPILE_FLAGS TARGET log4cplus_test PROPERTY COMPILE_FLAGS)
+    set_target_properties( log4cplus_test PROPERTIES COMPILE_FLAGS "${log4cplus_test_COMPILE_FLAGS} -Wno-deprecated-declarations" )
+endif ( )
 
 # export headers
 set ( ${PROJECT_NAME}_INCLUDES ${${PROJECT_NAME}_INCLUDES} CACHE INTERNAL "" )
