@@ -13,7 +13,7 @@
 
 namespace lg = log4cplus;
 
-const int LOOP_COUNT = 20000;
+const int LOOP_COUNT = 1024;
 
 int main() {
     lg::initialize();
