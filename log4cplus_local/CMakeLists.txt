@@ -37,6 +37,7 @@ if ( STATICLIB_TOOLCHAIN MATCHES "[^_]+_[^_]+_clang" OR STATICLIB_TOOLCHAIN MATC
     target_compile_options ( ${PROJECT_NAME} PRIVATE 
             -Wno-deprecated-declarations 
             -Wno-unused-parameter
+            -Wno-unused-variable
             -Wno-unused-const-variable )
 endif ( )
 if ( MSVC )

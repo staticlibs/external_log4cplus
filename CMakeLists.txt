@@ -27,8 +27,10 @@ staticlib_enable_testing ( ${PROJECT_NAME}_TEST_INCLUDES ${PROJECT_NAME}_TEST_LI
 if ( STATICLIB_TOOLCHAIN MATCHES "[^_]+_[^_]+_clang" OR STATICLIB_TOOLCHAIN MATCHES "[^_]+_[^_]+_gcc" )
     target_compile_options ( log4cplus_test PRIVATE -Wno-deprecated-declarations )
 endif ( )
-get_property ( log4cplus_test_LINK_FLAGS TARGET log4cplus_test PROPERTY LINK_FLAGS )
-set_target_properties ( log4cplus_test PROPERTIES LINK_FLAGS "${log4cplus_test_LINK_FLAGS} -pthread" )
+if ( STATICLIB_TOOLCHAIN MATCHES "linux_[^_]+_gcc" )
+    get_property ( log4cplus_test_LINK_FLAGS TARGET log4cplus_test PROPERTY LINK_FLAGS )
+    set_target_properties ( log4cplus_test PROPERTIES LINK_FLAGS "${log4cplus_test_LINK_FLAGS} -pthread" )
+endif ( )
 
 # export headers
 set ( ${PROJECT_NAME}_INCLUDES ${${PROJECT_NAME}_INCLUDES} CACHE INTERNAL "" )
