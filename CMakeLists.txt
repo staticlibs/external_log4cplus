@@ -7,6 +7,7 @@ set ( CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_LIST_DIR}/cmake/toolchains/${STATICLI
 
 # project setup
 project ( external_log4cplus CXX )
+set ( external_log4cplus_VERSION 1.1.2 )
 # common include
 include ( ${CMAKE_CURRENT_LIST_DIR}/cmake/CMakeLists_common.cmake )
 
@@ -15,10 +16,6 @@ add_subdirectory ( ${CMAKE_CURRENT_LIST_DIR}/log4cplus_local ${CMAKE_CURRENT_BIN
 set ( ${PROJECT_NAME}_INCLUDES 
         ${CMAKE_CURRENT_BINARY_DIR}/log4cplus/include
         ${CMAKE_CURRENT_LIST_DIR}/log4cplus/include )
-
-#get_property ( ${log4cplus}_COMPILE_FLAGS TARGET ${log4cplus} PROPERTY COMPILE_FLAGS)
-#set_target_properties( ${log4cplus} PROPERTIES COMPILE_FLAGS "${${log4cplus}_COMPILE_FLAGS} -Wno-deprecated-declarations" )
-
 
 # test
 set ( ${PROJECT_NAME}_TEST_INCLUDES ${${PROJECT_NAME}_INCLUDES} )
