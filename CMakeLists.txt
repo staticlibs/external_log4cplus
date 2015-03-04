@@ -11,17 +11,21 @@ set ( external_log4cplus_VERSION 1.1.2 )
 # common include
 include ( ${CMAKE_CURRENT_LIST_DIR}/cmake/CMakeLists_common.cmake )
 
-# build steps
+# build
 include ( ${CMAKE_CURRENT_LIST_DIR}/log4cplus.cmake )
 set ( ${PROJECT_NAME}_INCLUDES 
         ${CMAKE_CURRENT_BINARY_DIR}/include
         ${CMAKE_CURRENT_LIST_DIR}/log4cplus/include )
 
+# build utils
+add_subdirectory ( util )
+set ( ${PROJECT_NAME}_INCLUDES ${${PROJECT_NAME}_INCLUDES} ${util_log4cplus_INCLUDES} )
+
 # test
-set ( ${PROJECT_NAME}_TEST_INCLUDES ${${PROJECT_NAME}_INCLUDES} )
-set ( ${PROJECT_NAME}_TEST_LIBS ${PROJECT_NAME} )
+set ( ${PROJECT_NAME}_TEST_INCLUDES ${${PROJECT_NAME}_INCLUDES} ${util_log4cplus_INCLUDES} )
+set ( ${PROJECT_NAME}_TEST_LIBS ${PROJECT_NAME} util_log4cplus )
 staticlib_enable_testing ( ${PROJECT_NAME}_TEST_INCLUDES ${PROJECT_NAME}_TEST_LIBS )
-if ( STATICLIB_TOOLCHAIN MATCHES "[^_]+_[^_]+_clang" OR STATICLIB_TOOLCHAIN MATCHES "[^_]+_[^_]+_gcc" )
+if ( STATICLIB_TOOLCHAIN MATCHES "[^_]+_[^_]+_(clang|gcc)" )
     target_compile_options ( log4cplus_test PRIVATE -Wno-deprecated-declarations )
 endif ( )
 if ( STATICLIB_TOOLCHAIN MATCHES "linux_[^_]+_gcc" )

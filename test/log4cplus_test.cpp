@@ -6,23 +6,20 @@
  */
 
 #include <log4cplus/logger.h>
-#include <log4cplus/fileappender.h>
-#include <log4cplus/layout.h>
-#include <log4cplus/helpers/loglog.h>
 #include <log4cplus/loggingmacros.h>
 
-namespace lg = log4cplus;
+#include "staticlib/log4cplus/utils.hpp"
 
 const int LOOP_COUNT = 1024;
 
 int main() {
-    lg::initialize();
-    lg::SharedAppenderPtr append_1(new lg::DailyRollingFileAppender("Test.log"));
-    auto pattern = "%d{%Y-%m-%d %H:%M:%S,%q} [%-5p %-10.10T %-30.30c] %m%n";
-    append_1->setLayout(std::auto_ptr<lg::Layout>(new lg::PatternLayout(pattern)));
-    lg::Logger::getRoot().addAppender(append_1);
-    lg::Logger::getRoot().setLogLevel(lg::ALL_LOG_LEVEL);
-    lg::Logger subTest = lg::Logger::getInstance("test.subtest");
+    log4cplus::initialize();
+    auto fa = staticlib::log::create_file_appender("Test.log");
+    log4cplus::Logger::getRoot().addAppender(fa);
+//    auto ca = staticlib::log::create_console_appender();
+//    log4cplus::Logger::getRoot().addAppender(ca);
+    log4cplus::Logger::getRoot().setLogLevel(log4cplus::ALL_LOG_LEVEL);
+    log4cplus::Logger subTest = log4cplus::Logger::getInstance("test.subtest");
 
     for (int i = 0; i < LOOP_COUNT; ++i) {
         LOG4CPLUS_TRACE(subTest, "Entering loop #" << i);
