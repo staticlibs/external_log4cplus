@@ -1,9 +1,9 @@
 
 # this file is based on https://github.com/log4cplus/log4cplus/blob/REL_1_1_2/CMakeLists.txt
 cmake_minimum_required ( VERSION 2.8.12 )
-project ( log4cplus CXX C )
+
 set ( log4cplus ${PROJECT_NAME} )
-set ( log4cplus_SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/../log4cplus )
+set ( log4cplus_SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/log4cplus )
 set ( log4cplus_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR} )
 
 option( LOG4CPLUS_BUILD_TESTING "Build the test suite." OFF )
