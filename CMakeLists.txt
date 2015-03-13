@@ -7,9 +7,8 @@ set ( CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_LIST_DIR}/cmake/toolchains/${STATICLI
 
 # project setup
 project ( external_log4cplus CXX C )
-set ( external_log4cplus_VERSION 1.1.2 )
 # common include
-include ( ${CMAKE_CURRENT_LIST_DIR}/cmake/CMakeLists_common.cmake )
+include ( ${CMAKE_CURRENT_LIST_DIR}/cmake/staticlibs_common.cmake )
 
 # build
 include ( ${CMAKE_CURRENT_LIST_DIR}/log4cplus.cmake )
