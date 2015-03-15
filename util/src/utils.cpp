@@ -16,7 +16,7 @@ namespace staticlib {
 namespace log {
 
 const std::string FILE_APPENDER_LAYOUT = "%d{%Y-%m-%d %H:%M:%S,%q} [%-5p %-5.5T %-20.20c] %m%n";
-const std::string CONSOLE_APPENDER_LAYOUT = "%d{%H:%M:%S} [%-5p %-10.10c] %m%n";
+const std::string CONSOLE_APPENDER_LAYOUT = "%d{%H:%M:%S} [%-5p %-15.15c] %m%n";
 
 log4cplus::SharedAppenderPtr create_file_appender(const std::string& filename) {
     log4cplus::SharedAppenderPtr res{new log4cplus::DailyRollingFileAppender(filename)};
