@@ -8,7 +8,7 @@
 #include <log4cplus/logger.h>
 #include <log4cplus/loggingmacros.h>
 
-#include "staticlib/log4cplus/utils.hpp"
+#include "staticlib/log4cplus_utils.hpp"
 
 const int LOOP_COUNT = 1024;
 

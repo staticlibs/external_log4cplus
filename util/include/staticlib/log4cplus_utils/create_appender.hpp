@@ -1,12 +1,12 @@
 /* 
- * File:   utils.hpp
+ * File:   create_appender.hpp
  * Author: alex
  *
  * Created on March 4, 2015, 7:01 PM
  */
 
-#ifndef STATICLIB_LOG4CPLUS_UTILS_HPP
-#define	STATICLIB_LOG4CPLUS_UTILS_HPP
+#ifndef STATICLIB_CREATE_APPENDER_HPP
+#define	STATICLIB_CREATE_APPENDER_HPP
 
 #include <string>
 
@@ -23,5 +23,5 @@ log4cplus::SharedAppenderPtr create_console_appender();
 } // namespace
 }
 
-#endif	/* STATICLIB_LOG4CPLUS_UTILS_HPP */
+#endif	/* STATICLIB_CREATE_APPENDER_HPP */
 

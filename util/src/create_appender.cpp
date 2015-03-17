@@ -1,5 +1,5 @@
 /* 
- * File:   utils.cpp
+ * File:   create_appender.cpp
  * Author: alex
  * 
  * Created on March 4, 2015, 7:38 PM
@@ -10,7 +10,7 @@
 #include <log4cplus/fileappender.h>
 #include <log4cplus/consoleappender.h>
 
-#include "staticlib/log4cplus/utils.hpp"
+#include "staticlib/log4cplus_utils/create_appender.hpp"
 
 namespace staticlib {
 namespace log {
