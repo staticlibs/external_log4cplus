@@ -20,7 +20,7 @@ set ( CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_LIST_DIR}/cmake/toolchains/${STATICLI
 
 # project setup
 project ( external_log4cplus CXX C )
-set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.1.2 )
+set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.1.2.1 )
 # common include
 include ( ${CMAKE_CURRENT_LIST_DIR}/cmake/staticlibs_common.cmake )
 
@@ -42,7 +42,7 @@ if ( STATICLIB_TOOLCHAIN MATCHES "[^_]+_[^_]+_(clang|gcc)" )
     set ( ${PROJECT_NAME}_TEST_OPTS ${${PROJECT_NAME}_TEST_OPTS} -Wno-deprecated-declarations )
 endif ( )
 if ( STATICLIB_TOOLCHAIN MATCHES "linux_[^_]+_(clang|gcc)" )
-    set ( ${PROJECT_NAME}_TEST_LIBS ${${PROJECT_NAME}_TEST_LIBS} -pthread )
+    set ( ${PROJECT_NAME}_TEST_LIBS ${${PROJECT_NAME}_TEST_LIBS} pthread )
 endif ( )
 staticlib_enable_testing ( ${PROJECT_NAME}_TEST_INCLUDES ${PROJECT_NAME}_TEST_LIBS ${PROJECT_NAME}_TEST_OPTS )
 
