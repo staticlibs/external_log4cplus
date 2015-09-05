@@ -20,7 +20,7 @@ set ( CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_LIST_DIR}/cmake/toolchains/${STATICLI
 
 # project setup
 project ( external_log4cplus CXX C )
-set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.1.2.2 )
+set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.1.2.3 )
 # common include
 include ( ${CMAKE_CURRENT_LIST_DIR}/cmake/staticlibs_common.cmake )
 
@@ -29,18 +29,15 @@ include ( ${CMAKE_CURRENT_LIST_DIR}/log4cplus.cmake )
 set ( ${PROJECT_NAME}_INCLUDES 
         ${CMAKE_CURRENT_BINARY_DIR}/include
         ${CMAKE_CURRENT_LIST_DIR}/log4cplus/include )
-
-# build utils
-add_subdirectory ( util )
-set ( ${PROJECT_NAME}_INCLUDES ${${PROJECT_NAME}_INCLUDES} ${util_log4cplus_INCLUDES} )
+set ( ${PROJECT_NAME}_OPTIONS "" )
+if ( STATICLIB_TOOLCHAIN MATCHES "[^_]+_[^_]+_(clang|gcc)" )
+    set ( ${PROJECT_NAME}_OPTIONS ${${PROJECT_NAME}_OPTIONS} -Wno-deprecated-declarations )
+endif ( )
 
 # test
-set ( ${PROJECT_NAME}_TEST_INCLUDES ${${PROJECT_NAME}_INCLUDES} ${util_log4cplus_INCLUDES} )
-set ( ${PROJECT_NAME}_TEST_LIBS ${PROJECT_NAME} util_log4cplus )
-set ( ${PROJECT_NAME}_TEST_OPTS "" )
-if ( STATICLIB_TOOLCHAIN MATCHES "[^_]+_[^_]+_(clang|gcc)" )
-    set ( ${PROJECT_NAME}_TEST_OPTS ${${PROJECT_NAME}_TEST_OPTS} -Wno-deprecated-declarations )
-endif ( )
+set ( ${PROJECT_NAME}_TEST_INCLUDES ${${PROJECT_NAME}_INCLUDES} )
+set ( ${PROJECT_NAME}_TEST_LIBS ${PROJECT_NAME} )
+set ( ${PROJECT_NAME}_TEST_OPTS ${${PROJECT_NAME}_OPTIONS} )
 if ( STATICLIB_TOOLCHAIN MATCHES "linux_[^_]+_(clang|gcc)" )
     set ( ${PROJECT_NAME}_TEST_LIBS ${${PROJECT_NAME}_TEST_LIBS} pthread )
 endif ( )
@@ -48,3 +45,4 @@ staticlib_enable_testing ( ${PROJECT_NAME}_TEST_INCLUDES ${PROJECT_NAME}_TEST_LI
 
 # export headers
 set ( ${PROJECT_NAME}_INCLUDES ${${PROJECT_NAME}_INCLUDES} CACHE INTERNAL "" )
+set ( ${PROJECT_NAME}_OPTIONS ${${PROJECT_NAME}_OPTIONS} CACHE INTERNAL "" )

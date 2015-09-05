@@ -6,18 +6,19 @@
  */
 
 #include <log4cplus/logger.h>
+#include <log4cplus/fileappender.h>
+#include <log4cplus/consoleappender.h>
 #include <log4cplus/loggingmacros.h>
 
-#include "staticlib/log4cplus_utils.hpp"
-
 const int LOOP_COUNT = 1024;
+const std::string FILE_APPENDER_LAYOUT = "%d{%Y-%m-%d %H:%M:%S,%q} [%-5p %-5.5T %-20.20c] %m%n";
+//const std::string CONSOLE_APPENDER_LAYOUT = "%d{%H:%M:%S} [%-5p %-15.15c] %m%n";
 
 int main() {
     log4cplus::initialize();
-    auto fa = staticlib::log::create_file_appender("Test.log");
+    log4cplus::SharedAppenderPtr fa{new log4cplus::DailyRollingFileAppender("Test.log")};
+    fa->setLayout(std::auto_ptr<log4cplus::Layout>(new log4cplus::PatternLayout(FILE_APPENDER_LAYOUT)));
     log4cplus::Logger::getRoot().addAppender(fa);
-//    auto ca = staticlib::log::create_console_appender();
-//    log4cplus::Logger::getRoot().addAppender(ca);
     log4cplus::Logger::getRoot().setLogLevel(log4cplus::ALL_LOG_LEVEL);
     log4cplus::Logger subTest = log4cplus::Logger::getInstance("test.subtest");
 
