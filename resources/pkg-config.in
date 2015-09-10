@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-Name: ${PROJECT_NAME}
+Name: ${${PROJECT_NAME}_MODULE}
 Description: ${${PROJECT_NAME}_DESCRIPTION}
 URL: ${${PROJECT_NAME}_URL}
 Version: ${${PROJECT_NAME}_STATICLIB_VERSION}

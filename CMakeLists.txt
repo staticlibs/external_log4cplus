@@ -15,12 +15,12 @@
 # this file is based on https://github.com/log4cplus/log4cplus/blob/REL_1_1_2/CMakeLists.txt
 cmake_minimum_required ( VERSION 2.8.12 )
 
-project ( log4cplus CXX C )
+project ( external_log4cplus CXX C )
 set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.1.2.4 )
 set ( ${PROJECT_NAME}_DESCRIPTION "Log4cplus library build for Staticlibs" )
 set ( ${PROJECT_NAME}_URL https://github.com/staticlibs/external_log4cplus )
 
-set ( log4cplus ${PROJECT_NAME} )
+set ( log4cplus "log4cplus" )
 set ( log4cplus_SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/log4cplus )
 set ( log4cplus_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR} )
 
@@ -51,22 +51,22 @@ include_directories (${log4cplus_SOURCE_DIR}/include
                     )
 
 add_subdirectory ( ${log4cplus_SOURCE_DIR}/src ${log4cplus_BINARY_DIR}/src )
-if ( ( ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" ) OR ( ${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" ) ) 
-    target_compile_options ( ${PROJECT_NAME} PRIVATE 
+if ( ( ${CMAKE_CXX_COMPILER_ID} STREQUAL Clang ) OR ( ${CMAKE_CXX_COMPILER_ID} STREQUAL GNU ) ) 
+    target_compile_options ( log4cplus PRIVATE 
             -Wno-deprecated-declarations 
             -Wno-unused-parameter
             -Wno-unused-variable
             -Wno-unused-const-variable )
 endif ( )
-if ( WIN32 AND ${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC" )
-    get_property ( ${PROJECT_NAME}_COMPILE_FLAGS TARGET ${PROJECT_NAME} PROPERTY COMPILE_FLAGS)
-    set_target_properties( ${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "${${PROJECT_NAME}_COMPILE_FLAGS} /wd4127 /wd4996 /wd4121 /wd4244 /wd4512 /wd4610 /wd4510 /wd4100 /wd4702 /wd4505" )
+if ( ${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC )
+    get_property ( ${PROJECT_NAME}_COMPILE_FLAGS TARGET log4cplus PROPERTY COMPILE_FLAGS)
+    set_target_properties( log4cplus PROPERTIES COMPILE_FLAGS "${${PROJECT_NAME}_COMPILE_FLAGS} /wd4127 /wd4996 /wd4121 /wd4244 /wd4512 /wd4610 /wd4510 /wd4100 /wd4702 /wd4505" )
 endif ( )
 
 if (LOG4CPLUS_BUILD_TESTING)
     enable_testing()
     add_subdirectory ( ${log4cplus_SOURCE_DIR}/tests ${log4cplus_BINARY_DIR}/tests )
-    if ( ( ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" ) OR ( ${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" ) ) 
+    if ( ( ${CMAKE_CXX_COMPILER_ID} STREQUAL Clang ) OR ( ${CMAKE_CXX_COMPILER_ID} STREQUAL GNU ) ) 
         target_compile_options ( fileappender_test PRIVATE -Wno-deprecated-declarations )
         target_compile_options ( ndc_test PRIVATE -Wno-deprecated-declarations )
         target_compile_options ( fileappender_test PRIVATE -Wno-deprecated-declarations )
@@ -79,10 +79,11 @@ endif (LOG4CPLUS_BUILD_TESTING)
 if ( NOT DEFINED CMAKE_LIBRARY_OUTPUT_DIRECTORY )
     set ( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} )
 endif ( )
+set ( ${PROJECT_NAME}_MODULE log4cplus )
 set ( ${PROJECT_NAME}_PC_CFLAGS "-I${log4cplus_SOURCE_DIR}/include -I${log4cplus_BINARY_DIR}/include" )
-set ( ${PROJECT_NAME}_PC_LIBS "-L${CMAKE_LIBRARY_OUTPUT_DIRECTORY} -l${PROJECT_NAME}" )
+set ( ${PROJECT_NAME}_PC_LIBS "-L${CMAKE_LIBRARY_OUTPUT_DIRECTORY} -llog4cplus" )
 if ( CMAKE_SYSTEM_NAME STREQUAL "Linux" )
     set ( ${PROJECT_NAME}_PC_LIBS "${${PROJECT_NAME}_PC_LIBS} -lpthread" )
 endif ( )
 configure_file ( ${CMAKE_CURRENT_LIST_DIR}/resources/pkg-config.in 
-        ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/pkgconfig/${PROJECT_NAME}.pc )
+        ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/pkgconfig/log4cplus.pc )
