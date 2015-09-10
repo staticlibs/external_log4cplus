@@ -51,14 +51,14 @@ include_directories (${log4cplus_SOURCE_DIR}/include
                     )
 
 add_subdirectory ( ${log4cplus_SOURCE_DIR}/src ${log4cplus_BINARY_DIR}/src )
-if ( ( ${CMAKE_CXX_COMPILER_ID} STREQUAL Clang ) OR ( ${CMAKE_CXX_COMPILER_ID} STREQUAL GNU ) ) 
+if ( ( ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" ) OR ${CMAKE_COMPILER_IS_GNUCXX} ) 
     target_compile_options ( log4cplus PRIVATE 
             -Wno-deprecated-declarations 
             -Wno-unused-parameter
             -Wno-unused-variable
             -Wno-unused-const-variable )
 endif ( )
-if ( ${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC )
+if ( WIN32 AND MSVC )
     get_property ( ${PROJECT_NAME}_COMPILE_FLAGS TARGET log4cplus PROPERTY COMPILE_FLAGS)
     set_target_properties( log4cplus PROPERTIES COMPILE_FLAGS "${${PROJECT_NAME}_COMPILE_FLAGS} /wd4127 /wd4996 /wd4121 /wd4244 /wd4512 /wd4610 /wd4510 /wd4100 /wd4702 /wd4505" )
 endif ( )
@@ -66,7 +66,7 @@ endif ( )
 if (LOG4CPLUS_BUILD_TESTING)
     enable_testing()
     add_subdirectory ( ${log4cplus_SOURCE_DIR}/tests ${log4cplus_BINARY_DIR}/tests )
-    if ( ( ${CMAKE_CXX_COMPILER_ID} STREQUAL Clang ) OR ( ${CMAKE_CXX_COMPILER_ID} STREQUAL GNU ) ) 
+    if ( ( ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" ) OR ${CMAKE_COMPILER_IS_GNUCXX} ) 
         target_compile_options ( fileappender_test PRIVATE -Wno-deprecated-declarations )
         target_compile_options ( ndc_test PRIVATE -Wno-deprecated-declarations )
         target_compile_options ( fileappender_test PRIVATE -Wno-deprecated-declarations )
