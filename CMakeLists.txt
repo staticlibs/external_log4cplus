@@ -51,6 +51,7 @@ include_directories (${log4cplus_SOURCE_DIR}/include
                     )
 
 add_subdirectory ( ${log4cplus_SOURCE_DIR}/src ${log4cplus_BINARY_DIR}/src )
+add_custom_target ( ${PROJECT_NAME} DEPENDS ${log4cplus} )
 if ( ${CMAKE_CXX_COMPILER_ID} MATCHES "Clang|GNU" ) 
     target_compile_options ( log4cplus PRIVATE 
             -Wno-deprecated-declarations 
