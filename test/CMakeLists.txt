@@ -22,7 +22,7 @@ if ( NOT DEFINED STATICLIB_CMAKE )
 endif ( )
 
 # project
-project ( log4cplus_test CXX )
+project ( external_log4cplus_test CXX )
 include ( ${STATICLIB_CMAKE}/staticlibs_common.cmake )
 
 # dependencies
