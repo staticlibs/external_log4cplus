@@ -17,7 +17,7 @@ const std::string FILE_APPENDER_LAYOUT = "%d{%Y-%m-%d %H:%M:%S,%q} [%-5p %-5.5T 
 int main() {
     log4cplus::initialize();
     log4cplus::SharedAppenderPtr fa{new log4cplus::DailyRollingFileAppender("Test.log")};
-    fa->setLayout(std::auto_ptr<log4cplus::Layout>(new log4cplus::PatternLayout(FILE_APPENDER_LAYOUT)));
+    fa->setLayout(std::unique_ptr<log4cplus::Layout>(new log4cplus::PatternLayout(FILE_APPENDER_LAYOUT)));
     log4cplus::Logger::getRoot().addAppender(fa);
     log4cplus::Logger::getRoot().setLogLevel(log4cplus::ALL_LOG_LEVEL);
     log4cplus::Logger subTest = log4cplus::Logger::getInstance("test.subtest");

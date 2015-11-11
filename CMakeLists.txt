@@ -16,7 +16,7 @@
 cmake_minimum_required ( VERSION 2.8.12 )
 
 project ( external_log4cplus CXX C )
-set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.1.2.4 )
+set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.1.2.5 )
 set ( ${PROJECT_NAME}_DESCRIPTION "Log4cplus library build for Staticlibs" )
 set ( ${PROJECT_NAME}_URL https://github.com/staticlibs/external_log4cplus )
 
@@ -28,7 +28,16 @@ option ( LOG4CPLUS_BUILD_TESTING "Build the test suite." OFF )
 option ( LOG4CPLUS_WORKING_LOCALE "Define for compilers/standard libraries that support more than just the C locale." OFF )
 option ( LOG4CPLUS_WORKING_C_LOCALE "Define for compilers/standard libraries that have working C locale." OFF )
 option ( UNICODE "Build with tchar = wchar_t" OFF )
-option ( WITH_ICONV "Use iconv() for char->wchar_t conversion." OFF)
+option ( WITH_ICONV "Use iconv() for char->wchar_t conversion." OFF )
+option ( LOG4CPLUS_REMOVE_AUTOPTR "Apply patch to version 1.1.2 to remove auto_ptr" ON )
+
+if ( LOG4CPLUS_REMOVE_AUTOPTR )
+    message ( STATUS "Applying patch to log4cplus-1.1.2 sources to remove auto_ptr" )
+    execute_process ( COMMAND git reset --hard HEAD
+            WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/log4cplus )
+    execute_process ( COMMAND git apply ${CMAKE_CURRENT_LIST_DIR}/resources/remove_autoptr_112.patch
+            WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/log4cplus )
+endif ( )
   
 set ( _WIN32_WINNT 0x0501 CACHE STRING "Define Windows API version to use." )
 
@@ -55,7 +64,6 @@ set_target_properties ( ${log4cplus} PROPERTIES FOLDER "deps" )
 add_custom_target ( ${PROJECT_NAME} DEPENDS ${log4cplus} )
 if ( ${CMAKE_CXX_COMPILER_ID} MATCHES "Clang|GNU" ) 
     target_compile_options ( log4cplus PRIVATE 
-            -Wno-deprecated-declarations 
             -Wno-unused-parameter
             -Wno-unused-variable
             -Wno-unused-const-variable )
@@ -68,13 +76,6 @@ endif ( )
 if (LOG4CPLUS_BUILD_TESTING)
     enable_testing()
     add_subdirectory ( ${log4cplus_SOURCE_DIR}/tests ${log4cplus_BINARY_DIR}/tests )
-    if ( ${CMAKE_CXX_COMPILER_ID} MATCHES "Clang|GNU" ) 
-        target_compile_options ( fileappender_test PRIVATE -Wno-deprecated-declarations )
-        target_compile_options ( ndc_test PRIVATE -Wno-deprecated-declarations )
-        target_compile_options ( fileappender_test PRIVATE -Wno-deprecated-declarations )
-        target_compile_options ( patternlayout_test PRIVATE -Wno-deprecated-declarations )
-        target_compile_options ( thread_test PRIVATE -Wno-deprecated-declarations )
-    endif ( )
 endif (LOG4CPLUS_BUILD_TESTING)
 
 # pkg-config

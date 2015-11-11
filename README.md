@@ -3,7 +3,7 @@ Log4cplus logging library build for Staticlibs
 
 This project is a part of [Staticlibs](http://staticlibs.net/).
 
-This project contains a CMake wrapper for the [log4cplus library](https://github.com/log4cplus/log4cplus). 
+This project contains a CMake wrapper for the [log4cplus](https://github.com/log4cplus/log4cplus) library. 
 Wrapper uses custom CMake script based on original log4cplus CMake script.
 
 log4cplus GitHub repository is used as a git submodule of this project. log4cplus is pinned to version 1.1.2.
@@ -41,6 +41,11 @@ This project is released under the [Apache License 2.0](http://www.apache.org/li
 
 Changelog
 ---------
+
+**2015-11-21**
+
+ * version 1.1.2.5
+ * add optional patch (applied at build time) to remove `auto_ptr` usage
 
 **2015-10-20**
 
