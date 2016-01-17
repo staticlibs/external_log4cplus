@@ -8,7 +8,7 @@ Wrapper uses custom CMake script based on original log4cplus CMake script.
 
 log4cplus GitHub repository is used as a git submodule of this project. log4cplus is pinned to version 1.1.2.
 
-Link to [API documentation](http://log4cplus.sourceforge.net/docs/html/).
+Link to the [API documentation](http://log4cplus.sourceforge.net/docs/html/).
 
 How to build
 ------------
@@ -41,6 +41,11 @@ This project is released under the [Apache License 2.0](http://www.apache.org/li
 
 Changelog
 ---------
+
+**2016-01-17**
+
+ * version 1.1.2.6
+ * minor CMake changes
 
 **2015-11-21**
 
