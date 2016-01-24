@@ -61,6 +61,18 @@ file(WRITE ${DEFINES_HXX_CMAKE} ${FILE_BUFFER})
 
 configure_file(${DEFINES_HXX_CMAKE} ${DEFINES_HXX} @ONLY)
 
+# check deplibs cache
+if ( STATICLIB_USE_DEPLIBS_CACHE )
+    set ( ${PROJECT_NAME}_CACHED_LIB_PATH ${STATICLIB_DEPLIBS_CACHE_DIR}/${CMAKE_STATIC_LIBRARY_PREFIX}log4cplus${CMAKE_STATIC_LIBRARY_SUFFIX} )
+    if ( EXISTS ${${PROJECT_NAME}_CACHED_LIB_PATH} )
+        add_library( log4cplus STATIC IMPORTED GLOBAL )
+        set_target_properties( log4cplus PROPERTIES IMPORTED_LOCATION ${${PROJECT_NAME}_CACHED_LIB_PATH} )
+        add_custom_target( ${PROJECT_NAME} )
+        message ( STATUS "Using cached library: [${${PROJECT_NAME}_CACHED_LIB_PATH}]" )
+        return ( )
+    endif ( )
+endif ( )
+
 include_directories (${log4cplus_SOURCE_DIR}/include
                      ${log4cplus_BINARY_DIR}/include
                     )
@@ -89,7 +101,7 @@ set ( ${PROJECT_NAME}_MODULE log4cplus )
 set ( ${PROJECT_NAME}_PC_CFLAGS "-I${log4cplus_SOURCE_DIR}/include -I${log4cplus_BINARY_DIR}/include" )
 set ( ${PROJECT_NAME}_PC_LIBS "-L${CMAKE_LIBRARY_OUTPUT_DIRECTORY} -llog4cplus" )
 if ( CMAKE_SYSTEM_NAME MATCHES "Linux" )
-    set ( ${PROJECT_NAME}_PC_LIBS "${${PROJECT_NAME}_PC_LIBS} -lpthread" )
+    set ( ${PROJECT_NAME}_PC_LIBS "${${PROJECT_NAME}_PC_LIBS} -lpthread -lrt" )
 endif ( )
 configure_file ( ${CMAKE_CURRENT_LIST_DIR}/resources/pkg-config.in 
         ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/pkgconfig/log4cplus.pc )
