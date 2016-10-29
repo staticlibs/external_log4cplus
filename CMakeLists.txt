@@ -16,7 +16,7 @@
 cmake_minimum_required ( VERSION 2.8.12 )
 
 project ( external_log4cplus CXX C )
-set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.1.2.6 )
+set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.1.3-1 )
 set ( ${PROJECT_NAME}_DESCRIPTION "Log4cplus library build for Staticlibs" )
 set ( ${PROJECT_NAME}_URL https://github.com/staticlibs/external_log4cplus )
 
@@ -29,22 +29,15 @@ option ( LOG4CPLUS_WORKING_LOCALE "Define for compilers/standard libraries that 
 option ( LOG4CPLUS_WORKING_C_LOCALE "Define for compilers/standard libraries that have working C locale." OFF )
 option ( UNICODE "Build with tchar = wchar_t" OFF )
 option ( WITH_ICONV "Use iconv() for char->wchar_t conversion." OFF )
-option ( LOG4CPLUS_REMOVE_AUTOPTR "Apply patch to version 1.1.2 to remove auto_ptr" ON )
 
 # standalone build
 if ( NOT DEFINED CMAKE_LIBRARY_OUTPUT_DIRECTORY )
     set ( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR} )
 endif ( )
-
-if ( LOG4CPLUS_REMOVE_AUTOPTR AND ( NOT DEFINED LOG4CPLUS_REMOVE_AUTOPTR_APPLIED ) )
-    message ( STATUS "Applying patch to log4cplus-1.1.2 sources to remove auto_ptr" )
-    execute_process ( COMMAND git reset --hard HEAD
-            WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/log4cplus )
-    execute_process ( COMMAND git apply ${CMAKE_CURRENT_LIST_DIR}/resources/remove_autoptr_112.patch
-            WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/log4cplus )
-    set ( LOG4CPLUS_REMOVE_AUTOPTR_APPLIED "" CACHE INTERNAL "" )
+if ( NOT DEFINED CMAKE_INSTALL_LIBDIR )
+    set ( CMAKE_INSTALL_LIBDIR ${CMAKE_BINARY_DIR} )
 endif ( )
-  
+
 set ( _WIN32_WINNT 0x0501 CACHE STRING "Define Windows API version to use." )
 
 include( ${log4cplus_SOURCE_DIR}/ConfigureChecks.cmake )
