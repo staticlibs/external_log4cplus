@@ -12,23 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# this file is based on https://github.com/log4cplus/log4cplus/blob/REL_1_1_2/CMakeLists.txt
 cmake_minimum_required ( VERSION 2.8.12 )
 
+# project
 project ( external_log4cplus CXX C )
 set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.1.3-1 )
 set ( ${PROJECT_NAME}_DESCRIPTION "Log4cplus library build for Staticlibs" )
 set ( ${PROJECT_NAME}_URL https://github.com/staticlibs/external_log4cplus )
-
-set ( log4cplus "log4cplus" )
-set ( log4cplus_SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/log4cplus )
-set ( log4cplus_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR} )
-
-option ( LOG4CPLUS_BUILD_TESTING "Build the test suite." OFF )
-option ( LOG4CPLUS_WORKING_LOCALE "Define for compilers/standard libraries that support more than just the C locale." OFF )
-option ( LOG4CPLUS_WORKING_C_LOCALE "Define for compilers/standard libraries that have working C locale." OFF )
-option ( UNICODE "Build with tchar = wchar_t" OFF )
-option ( WITH_ICONV "Use iconv() for char->wchar_t conversion." OFF )
 
 # standalone build
 if ( NOT DEFINED CMAKE_LIBRARY_OUTPUT_DIRECTORY )
@@ -38,64 +28,14 @@ if ( NOT DEFINED CMAKE_INSTALL_LIBDIR )
     set ( CMAKE_INSTALL_LIBDIR ${CMAKE_BINARY_DIR} )
 endif ( )
 
-set ( _WIN32_WINNT 0x0501 CACHE STRING "Define Windows API version to use." )
-
-include( ${log4cplus_SOURCE_DIR}/ConfigureChecks.cmake )
-
-# Prepare defines.hxx.cmake from defines.hxx.in by doing a bit of
-# string manipulation.
-file(READ ${log4cplus_SOURCE_DIR}/include/log4cplus/config/defines.hxx.in FILE_BUFFER)
-string(REGEX REPLACE "#undef[^a-zA-Z0-9_]+([a-zA-Z0-9_]+)"
-  "#cmakedefine \\1 @\\1@" FILE_BUFFER "${FILE_BUFFER}")
-set(DEFINES_HXX_CMAKE
-  ${log4cplus_BINARY_DIR}/include/log4cplus/config/defines.hxx.cmake) 
-set(DEFINES_HXX ${log4cplus_BINARY_DIR}/include/log4cplus/config/defines.hxx)
-file(WRITE ${DEFINES_HXX_CMAKE} ${FILE_BUFFER})
-
-configure_file(${DEFINES_HXX_CMAKE} ${DEFINES_HXX} @ONLY)
-
-# check deplibs cache
-if ( STATICLIB_USE_DEPLIBS_CACHE )
-    if ( ${CMAKE_BUILD_TYPE} MATCHES "Debug" AND ${CMAKE_CXX_COMPILER_ID}x MATCHES "MSVCx" )
-        set ( ${PROJECT_NAME}_CACHED_LIB_PATH ${STATICLIB_DEPLIBS_CACHE_DIR}/${CMAKE_STATIC_LIBRARY_PREFIX}log4cplusD${CMAKE_STATIC_LIBRARY_SUFFIX} )
-    else ( )
-        set ( ${PROJECT_NAME}_CACHED_LIB_PATH ${STATICLIB_DEPLIBS_CACHE_DIR}/${CMAKE_STATIC_LIBRARY_PREFIX}log4cplus${CMAKE_STATIC_LIBRARY_SUFFIX} )
-    endif ( )
-    if ( EXISTS ${${PROJECT_NAME}_CACHED_LIB_PATH} )
-        add_library( log4cplus STATIC IMPORTED GLOBAL )
-        set_target_properties( log4cplus PROPERTIES IMPORTED_LOCATION ${${PROJECT_NAME}_CACHED_LIB_PATH} )
-        add_custom_target( ${PROJECT_NAME} )
-        message ( STATUS "Using cached library: [${${PROJECT_NAME}_CACHED_LIB_PATH}]" )
-        return ( )
-    endif ( )
-endif ( )
-
-include_directories (${log4cplus_SOURCE_DIR}/include
-                     ${log4cplus_BINARY_DIR}/include
-                    )
-
-add_subdirectory ( ${log4cplus_SOURCE_DIR}/src ${log4cplus_BINARY_DIR}/src )
-set_target_properties ( ${log4cplus} PROPERTIES FOLDER "deps" )
-add_custom_target ( ${PROJECT_NAME} DEPENDS ${log4cplus} )
-if ( ${CMAKE_CXX_COMPILER_ID} MATCHES "Clang|GNU" ) 
-    target_compile_options ( log4cplus PRIVATE 
-            -Wno-unused-parameter
-            -Wno-unused-variable
-            -Wno-unused-const-variable )
-endif ( )
-if ( ${CMAKE_CXX_COMPILER_ID}x MATCHES "MSVCx" )
-    get_property ( ${PROJECT_NAME}_COMPILE_FLAGS TARGET log4cplus PROPERTY COMPILE_FLAGS)
-    set_target_properties( log4cplus PROPERTIES COMPILE_FLAGS "${${PROJECT_NAME}_COMPILE_FLAGS} /DWIN32_LEAN_AND_MEAN /wd4127 /wd4996 /wd4121 /wd4244 /wd4512 /wd4610 /wd4510 /wd4100 /wd4702 /wd4505" )
-endif ( )
-
-if (LOG4CPLUS_BUILD_TESTING)
-    enable_testing()
-    add_subdirectory ( ${log4cplus_SOURCE_DIR}/tests ${log4cplus_BINARY_DIR}/tests )
-endif (LOG4CPLUS_BUILD_TESTING)
+# jansson library
+add_subdirectory ( ${CMAKE_CURRENT_LIST_DIR}/resources/log4cplus_cmake ${CMAKE_CURRENT_BINARY_DIR}/log4cplus )
+set_target_properties ( log4cplus PROPERTIES FOLDER "deps" )
+add_custom_target ( ${PROJECT_NAME} DEPENDS log4cplus )
 
 # pkg-config
 set ( ${PROJECT_NAME}_MODULE log4cplus )
-set ( ${PROJECT_NAME}_PC_CFLAGS "-I${log4cplus_SOURCE_DIR}/include -I${log4cplus_BINARY_DIR}/include" )
+set ( ${PROJECT_NAME}_PC_CFLAGS "-I${CMAKE_CURRENT_LIST_DIR}/log4cplus/include -I${CMAKE_CURRENT_BINARY_DIR}/log4cplus/include" )
 set ( ${PROJECT_NAME}_PC_LIBS "-L${CMAKE_LIBRARY_OUTPUT_DIRECTORY} -llog4cplus" )
 if ( CMAKE_SYSTEM_NAME MATCHES "Linux" )
     set ( ${PROJECT_NAME}_PC_LIBS "${${PROJECT_NAME}_PC_LIBS} -lpthread -lrt" )
