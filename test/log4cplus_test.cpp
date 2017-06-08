@@ -52,7 +52,7 @@ void test_log() {
 
 void test_ofstream() {
     std::string name = "fstream_out.txt";
-    auto out = std::ofstream();
+    std::ofstream out{};
 #ifndef STATICLIB_WINDOWS
     out.open(name, std::ios::out);
 #else // STATICLIB_WINDOWS
