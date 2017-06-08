@@ -14,6 +14,8 @@
 
 #include "staticlib/config/assert.hpp"
 
+#include "staticlib/utils.hpp"
+
 const int LOOP_COUNT = 1024;
 const std::string FILE_APPENDER_LAYOUT = "%d{%Y-%m-%d %H:%M:%S,%q} [%-5p %-5.5T %-20.20c] %m%n";
 //const std::string CONSOLE_APPENDER_LAYOUT = "%d{%H:%M:%S} [%-5p %-15.15c] %m%n";
@@ -26,6 +28,14 @@ void test_log() {
     log4cplus::Logger::getRoot().setLogLevel(log4cplus::ALL_LOG_LEVEL);
     log4cplus::Logger subTest = log4cplus::Logger::getInstance("test.subtest");
 
+    // run the process to test for handle inheritance vs rollover
+    auto path = std::string("bin/sleeper");
+#ifdef STATICLIB_WINDOWS
+    path.append(".exe");
+#endif // STATICLIB_WINDOWS
+    sl::utils::exec_async(path, {}, "sleeper.out");
+    
+    // do logging
     for (int i = 0; i < LOOP_COUNT; ++i) {
         LOG4CPLUS_TRACE(subTest, "Entering loop #" << i);
         LOG4CPLUS_DEBUG(subTest, "Entering loop #" << i);
