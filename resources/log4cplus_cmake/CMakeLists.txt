@@ -30,7 +30,7 @@ option ( WITH_ICONV "Use iconv() for char->wchar_t conversion." OFF )
 
 set ( _WIN32_WINNT 0x0501 CACHE STRING "Define Windows API version to use." )
 
-if ( STATICLIB_TOOLCHAIN MATCHES "windows_[^_]+_msvc" )
+if ( STATICLIB_TOOLCHAIN MATCHES "(android|windows)_[^_]+_[^_]+" )
     file ( COPY ${CMAKE_CURRENT_LIST_DIR}/${STATICLIB_TOOLCHAIN}/defines.hxx
             DESTINATION ${log4cplus_BINARY_DIR}/include/log4cplus/config/ )
 
