@@ -16,9 +16,12 @@ cmake_minimum_required ( VERSION 2.8.12 )
 
 # project
 project ( external_log4cplus CXX C )
-set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.1.3-1 )
+set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.1.3-2 )
 set ( ${PROJECT_NAME}_DESCRIPTION "Log4cplus library build for Staticlibs" )
 set ( ${PROJECT_NAME}_URL https://github.com/staticlibs/external_log4cplus )
+
+# options, use set ( OPTNAME ON CACHE BOOL "") in parent to override
+option ( ${PROJECT_NAME}_ENABLE_PRECONFIGURATION "Skip configure-step checks and use preconfigured config headers" OFF )
 
 # standalone build
 if ( NOT DEFINED CMAKE_LIBRARY_OUTPUT_DIRECTORY )

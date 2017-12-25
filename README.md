@@ -1,12 +1,16 @@
 Log4cplus logging library build for Staticlibs
 ==============================================
 
+[![travis](https://travis-ci.org/staticlibs/external_log4cplus.svg?branch=master)](https://travis-ci.org/staticlibs/external_log4cplus)
+[![appveyor](https://ci.appveyor.com/api/projects/status/github/staticlibs/external_log4cplus?svg=true)](https://ci.appveyor.com/project/staticlibs/external-log4cplus)
+
 This project is a part of [Staticlibs](http://staticlibs.net/).
 
 This project contains a CMake wrapper for the [log4cplus](https://github.com/log4cplus/log4cplus) library. 
 Wrapper uses custom CMake script based on original log4cplus CMake script.
 
-log4cplus GitHub repository is used as a git submodule of this project. log4cplus is pinned to version 1.1.2.
+log4cplus sources imported from [CentOS lookaside](https://github.com/ojdkbuild/lookaside_log4cplus.git)
+are used as a submodule of this project.
 
 Link to the [API documentation](http://log4cplus.sourceforge.net/docs/html/).
 
@@ -41,6 +45,10 @@ This project is released under the [Apache License 2.0](http://www.apache.org/li
 
 Changelog
 ---------
+
+**2017-12-25**
+ * version 1.1.3-2
+ * vs2017 support
 
 **2016-10-29**
 
