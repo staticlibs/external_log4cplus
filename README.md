@@ -9,7 +9,7 @@ This project is a part of [Staticlibs](http://staticlibs.net/).
 This project contains a CMake wrapper for the [log4cplus](https://github.com/log4cplus/log4cplus) library. 
 Wrapper uses custom CMake script based on original log4cplus CMake script.
 
-log4cplus sources imported from [CentOS lookaside](https://github.com/ojdkbuild/lookaside_log4cplus.git)
+log4cplus sources imported from [Fedora EPEL lookaside](https://github.com/ojdkbuild/lookaside_log4cplus.git)
 are used as a submodule of this project.
 
 Link to the [API documentation](http://log4cplus.sourceforge.net/docs/html/).
