@@ -80,7 +80,18 @@ if ( ${CMAKE_CXX_COMPILER_ID} MATCHES "Clang|GNU" )
             -Wno-unused-function )
 endif ( )
 if ( ${CMAKE_CXX_COMPILER_ID}x MATCHES "MSVCx" )
-    target_compile_options ( log4cplus PRIVATE /wd4127 /wd4996 /wd4121 /wd4244 /wd4512 /wd4610 /wd4510 /wd4100 /wd4702 /wd4505 )
+    target_compile_options ( log4cplus PRIVATE 
+            /wd4100
+            /wd4121
+            /wd4127
+            /wd4244
+            /wd4324
+            /wd4505
+            /wd4510
+            /wd4512
+            /wd4610
+            /wd4702
+            /wd4996 )
     target_compile_definitions ( log4cplus PRIVATE -DWIN32_LEAN_AND_MEAN -DLOG4CPLUS_DISABLE_DLL_RUNTIME_WARNING )
     if ( LOG4CPLUS_OFSTREAM_OPEN_NONINHERIT )
         target_compile_definitions ( log4cplus PRIVATE -DLOG4CPLUS_OFSTREAM_OPEN_NONINHERIT )
