@@ -1,0 +1,1 @@
+https://github.com/staticlibs/lookaside_log4cplus/tree/231f995f73203870d610f90ede721b00760f1546

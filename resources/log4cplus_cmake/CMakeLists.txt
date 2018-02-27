@@ -17,8 +17,12 @@ cmake_minimum_required ( VERSION 2.8.12 )
 
 project ( log4cplus CXX C )
 
+if ( NOT DEFINED ${PROJECT_NAME}_LOOKASIDE_DIR )
+    set ( ${PROJECT_NAME}_LOOKASIDE_DIR ${CMAKE_CURRENT_LIST_DIR}/../../../lookaside_log4cplus CACHE INTERNAL "" )
+endif ( )
+
 set ( log4cplus "log4cplus" )
-set ( log4cplus_SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/../../log4cplus )
+set ( log4cplus_SOURCE_DIR ${${PROJECT_NAME}_LOOKASIDE_DIR} )
 set ( log4cplus_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR} )
 
 option ( LOG4CPLUS_OFSTREAM_OPEN_NONINHERIT "Open log files without handle inheritance." ON )
@@ -27,8 +31,6 @@ option ( LOG4CPLUS_WORKING_LOCALE "Define for compilers/standard libraries that 
 option ( LOG4CPLUS_WORKING_C_LOCALE "Define for compilers/standard libraries that have working C locale." OFF )
 option ( UNICODE "Build with tchar = wchar_t" OFF )
 option ( WITH_ICONV "Use iconv() for char->wchar_t conversion." OFF )
-
-set ( _WIN32_WINNT 0x0501 CACHE STRING "Define Windows API version to use." )
 
 if ( external_log4cplus_ENABLE_PRECONFIGURATION AND STATICLIB_TOOLCHAIN MATCHES "(android|windows|macosx)_[^_]+_[^_]+" )
     file ( COPY ${CMAKE_CURRENT_LIST_DIR}/${STATICLIB_TOOLCHAIN}/defines.hxx

@@ -16,7 +16,7 @@ cmake_minimum_required ( VERSION 2.8.12 )
 
 # project
 project ( external_log4cplus CXX C )
-set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.1.3-2 )
+set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.1.3-3 )
 set ( ${PROJECT_NAME}_DESCRIPTION "Log4cplus library build for Staticlibs" )
 set ( ${PROJECT_NAME}_URL https://github.com/staticlibs/external_log4cplus )
 
@@ -38,7 +38,7 @@ add_custom_target ( ${PROJECT_NAME} DEPENDS log4cplus )
 
 # pkg-config
 set ( ${PROJECT_NAME}_MODULE log4cplus )
-set ( ${PROJECT_NAME}_PC_CFLAGS "-I${CMAKE_CURRENT_LIST_DIR}/log4cplus/include -I${CMAKE_CURRENT_BINARY_DIR}/log4cplus/include" )
+set ( ${PROJECT_NAME}_PC_CFLAGS "-I${log4cplus_LOOKASIDE_DIR}/include -I${CMAKE_CURRENT_BINARY_DIR}/log4cplus/include" )
 if ( ${CMAKE_CXX_COMPILER_ID}x MATCHES "MSVCx" )
     set ( ${PROJECT_NAME}_PC_CFLAGS "${${PROJECT_NAME}_PC_CFLAGS} -DLOG4CPLUS_DISABLE_DLL_RUNTIME_WARNING" )
 endif ( )

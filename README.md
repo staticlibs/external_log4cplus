@@ -6,11 +6,8 @@ Log4cplus logging library build for Staticlibs
 
 This project is a part of [Staticlibs](http://staticlibs.net/).
 
-This project contains a CMake wrapper for the [log4cplus](https://github.com/log4cplus/log4cplus) library. 
-Wrapper uses custom CMake script based on original log4cplus CMake script.
-
-log4cplus sources imported from [Fedora EPEL lookaside](https://github.com/ojdkbuild/lookaside_log4cplus.git)
-are used as a submodule of this project.
+This project contains a CMake wrapper for the [log4cplus](https://github.com/log4cplus/log4cplus) library that
+can be used to build sources imported from [CentOS lookaside](https://github.com/staticlibs/lookaside_log4cplus.git).
 
 Link to the [API documentation](http://log4cplus.sourceforge.net/docs/html/).
 
@@ -23,7 +20,8 @@ To build the library on Windows using Visual Studio 2013 Express run the followi
 Visual Studio development command prompt 
 (`C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\Tools\Shortcuts\VS2013 x86 Native Tools Command Prompt`):
 
-    git clone --recursive https://github.com/staticlibs/external_log4cplus.git
+    git clone https://github.com/staticlibs/external_log4cplus.git
+    git clone https://github.com/staticlibs/lookaside_log4cplus.git
     cd external_log4cplus
     mkdir build
     cd build
@@ -46,7 +44,13 @@ This project is released under the [Apache License 2.0](http://www.apache.org/li
 Changelog
 ---------
 
+**2018-02-28**
+
+ * version 1.1.3-3
+ * drop submodule
+
 **2017-12-25**
+
  * version 1.1.3-2
  * vs2017 support
 
