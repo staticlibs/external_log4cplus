@@ -1,1 +1,1 @@
-https://github.com/staticlibs/lookaside_log4cplus/tree/231f995f73203870d610f90ede721b00760f1546
+https://github.com/staticlibs/lookaside_log4cplus/tree/9f48ba6e2ea1fac1c9e67f3998d72703b660652b
